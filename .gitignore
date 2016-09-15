@@ -1,3 +1,15 @@
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Maven
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -7,3 +19,7 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+
+
+# Mac
+.DS_Store
