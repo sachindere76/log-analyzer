@@ -42,11 +42,11 @@ public class App {
 
         final ParsedArgument[] parsedArguments = parseConfigFileOrArguments();
 
-        final ArgumentInfoRegistry arugmentInfoRegistry = new ArgumentInfoRegistry(
+        final ArgumentInfoRegistry argumentInfoRegistry = new ArgumentInfoRegistry(
                 this.getClass().getPackage().getName());
-        arugmentInfoRegistry.init();
+        argumentInfoRegistry.init();
 
-        final AppConfig appConfig = new AppConfig(arugmentInfoRegistry);
+        final AppConfig appConfig = new AppConfig(argumentInfoRegistry);
         appConfig.init(parsedArguments);
 
         final FileProcessor processor = FileProcessorBuilder.createProcessor(appConfig.getLogFilePath());

@@ -12,7 +12,7 @@ import com.joergeschmann.tools.loganalyzer.config.ArgumentInfo;
  * @param <T>
  */
 @ArgumentInfo(name = ValueFilter.KEY, constructorArguments = { String.class,
-        String.class }, description = "--valueFilter \"message\" \"test\"]")
+        String.class }, description = "--valueFilter \"message\" \"test\"")
 public class ValueFilter<T extends FilterableValue> extends AbstractFilter<T> {
 
     public static final String KEY = "valueFilter";
