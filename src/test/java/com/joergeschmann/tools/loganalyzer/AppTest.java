@@ -12,30 +12,35 @@ public class AppTest {
     @Test
     public void run() {
 
-        URL logFileUrl = URLClassLoader.getSystemResource("logfiles/small.log");
-        File outputFile = new File(System.getProperty("java.io.tmpdir"), "log-analyer-result.txt");
-        
-        if(outputFile.exists()) {
-        	outputFile.delete();
-        }
-        
-        Assert.assertFalse(outputFile.exists());
+	URL logFileUrl = URLClassLoader.getSystemResource("logfiles/medium.log");
+	File outputFile = new File(System.getProperty("java.io.tmpdir"), "log-analyer-result.txt");
 
-        String[] arguments = new String[] { // no line break
+	if (outputFile.exists()) {
+	    outputFile.delete();
+	}
 
-                "--logFile", logFileUrl.getPath(), // no line break
-                "--outputFile", outputFile.getAbsolutePath(), // no line break
-                "--exactDateFilter", "2016-06-15", // no line break
-                "--timeRangeFilter", "23:58:00", "23:59:00", // no line break
-                "--valueFilter", "-n", "component", "Class1", "valueFilter", "-i", "message",
-                "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+	Assert.assertFalse(outputFile.exists());
+	
+	//@formatter:off
 
-        };
+	String[] arguments = new String[] { 
 
-        App app = new App(arguments);
-        app.run();
-        
-        Assert.assertTrue(outputFile.exists());
+	        "--logFile", logFileUrl.getPath(), 
+	        "--outputFile", outputFile.getAbsolutePath(), 
+	        "--exactDateFilter", "2016-06-15", 
+	        "--timeRangeFilter", "23:58:00", "23:59:00", 
+	        "--regexExtractedOutputField", "message", "instanceId\\=[A-Z]*",
+	        "--valueFilter", "-n", "component", "Class1", "valueFilter", "-i", "message",
+	        "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+
+	};
+	
+	//@formatter:on
+
+	App app = new App(arguments);
+	app.run();
+
+	Assert.assertTrue(outputFile.exists());
 
     }
 

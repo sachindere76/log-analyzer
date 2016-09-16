@@ -19,11 +19,12 @@ import com.joergeschmann.tools.loganalyzer.config.parameter.OutputFileParameter;
 import com.joergeschmann.tools.loganalyzer.filter.Filter;
 import com.joergeschmann.tools.loganalyzer.filter.modifier.RelevanceModifier;
 import com.joergeschmann.tools.loganalyzer.filter.modifier.RelevanceModifierBuilder;
+import com.joergeschmann.tools.loganalyzer.output.OutputField;
 import com.joergeschmann.tools.loganalyzer.processing.observer.LogEntry;
 
 /**
- * Holds all necessary information to run the analyzer. Classes annotated with ArgumentInfo are automatically available
- * by the ArgumentInfoRegistry.
+ * Holds all necessary information to run the analyzer. Classes annotated with
+ * ArgumentInfo are automatically available by the ArgumentInfoRegistry.
  * 
  * @author joerg.eschmann@gmail.com
  *
@@ -35,17 +36,21 @@ public class AppConfig {
     private final ArgumentInfoRegistry argumentInfoRegistry;
     private Map<String, String> configValues;
     private final List<Filter<LogEntry>> filterList;
+    private final List<OutputField<LogEntry>> outputFields;
 
     public AppConfig(final ArgumentInfoRegistry argumentInfoRegistry) {
         this.argumentInfoRegistry = argumentInfoRegistry;
         this.configValues = new HashMap<>();
         this.filterList = new ArrayList<>();
+        this.outputFields = new ArrayList<>();
     }
 
     /**
-     * Currently, there are two types of arguments. On the one hand are filters and on the other hand are config
-     * parameters. A Filter is used to determine whether a log line is relevant and should be displayed. A
-     * ConfigParameter is used to set values that impact the file reading part like which log file is read.
+     * Currently, there are two types of arguments. On the one hand are filters
+     * and on the other hand are config parameters. A Filter is used to
+     * determine whether a log line is relevant and should be displayed. A
+     * ConfigParameter is used to set values that impact the file reading part
+     * like which log file is read.
      * 
      * @param parsedArguments
      */
@@ -64,6 +69,8 @@ public class AppConfig {
                 addFilter(definingClass, argument);
             } else if (ConfigParameter.class.isAssignableFrom(definingClass)) {
                 addConfigValue(definingClass, argument);
+            } else if (OutputField.class.isAssignableFrom(definingClass)) {
+                addOutputFieldConfig(definingClass, argument);
             }
 
         }
@@ -84,6 +91,10 @@ public class AppConfig {
 
     public List<Filter<LogEntry>> getFilterList() {
         return this.filterList;
+    }
+
+    public List<OutputField<LogEntry>> getOutputFields() {
+        return this.outputFields;
     }
 
     @SuppressWarnings("unchecked")
@@ -126,6 +137,25 @@ public class AppConfig {
 
         } catch (Exception exc) {
             LOGGER.warn("Could not create config parameter: {} -> {} ", definingClass.getName(), exc.getMessage());
+        }
+
+    }
+
+    @SuppressWarnings("unchecked")
+    private void addOutputFieldConfig(final Class<?> definingClass, final ParsedArgument parsedArgument) {
+
+        final ArgumentInfo argumentInfos = this.argumentInfoRegistry.getArgumentInfo(parsedArgument.getKey());
+
+        try {
+
+            final OutputField<LogEntry> newField = (OutputField<LogEntry>) definingClass
+                    .getDeclaredConstructor(argumentInfos.constructorArguments())
+                    .newInstance(parsedArgument.getValues().toArray());
+
+            this.outputFields.add(newField);
+
+        } catch (Exception exc) {
+            System.out.println("Could not create output field: " + definingClass.getName() + " -> " + exc.getMessage());
         }
 
     }

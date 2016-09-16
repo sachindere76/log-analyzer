@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Processes a directory containing multiple files. Each file is processed be a SingleFileProcessor.
+ * Processes a directory containing multiple files. Each file is processed be a
+ * SingleFileProcessor.
  * 
  * @author joerg.eschmann@gmail.com
  *

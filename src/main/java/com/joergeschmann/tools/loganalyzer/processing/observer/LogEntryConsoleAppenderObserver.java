@@ -1,9 +1,12 @@
 package com.joergeschmann.tools.loganalyzer.processing.observer;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.joergeschmann.tools.loganalyzer.filter.FilterProcessor;
+import com.joergeschmann.tools.loganalyzer.output.OutputField;
 
 /**
  * Appends the log entries to the console.
@@ -15,8 +18,9 @@ public class LogEntryConsoleAppenderObserver extends AbstractLogEntryObserver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LogEntryConsoleAppenderObserver.class);
 
-    public LogEntryConsoleAppenderObserver(FilterProcessor<LogEntry> filterProcessor, LogEntryParser logEntryParser) {
-        super(filterProcessor, logEntryParser);
+    public LogEntryConsoleAppenderObserver(FilterProcessor<LogEntry> filterProcessor, LogEntryParser logEntryParser,
+            final List<OutputField<LogEntry>> outputFields) {
+        super(filterProcessor, logEntryParser, outputFields);
     }
 
     @Override
@@ -25,8 +29,8 @@ public class LogEntryConsoleAppenderObserver extends AbstractLogEntryObserver {
     }
 
     @Override
-    void writeLogEntry(LogEntry entry) {
-        System.out.println(entry.serialize());
+    void writeLogEntry(String entry) {
+        System.out.println(entry);
     }
 
 }

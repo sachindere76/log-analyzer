@@ -31,9 +31,10 @@ public final class LogEntryObserverBuilder {
 
         if (appConfig.isOutputFileDefined()) {
             final File outputFile = new File(appConfig.getOutputFilePath());
-            return new LogEntryFileAppenderObserver(filterProcessor, logEntryParser, outputFile);
+            return new LogEntryFileAppenderObserver(filterProcessor, logEntryParser, outputFile,
+                    appConfig.getOutputFields());
         } else {
-            return new LogEntryConsoleAppenderObserver(filterProcessor, logEntryParser);
+            return new LogEntryConsoleAppenderObserver(filterProcessor, logEntryParser, appConfig.getOutputFields());
         }
 
     }

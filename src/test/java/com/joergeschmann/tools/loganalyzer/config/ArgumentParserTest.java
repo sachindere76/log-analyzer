@@ -28,7 +28,7 @@ public class ArgumentParserTest {
 
         Assert.assertEquals("src/test/resources/logfiles/medium.log", parsedArguments[0].getValues().get(0));
         Assert.assertEquals("Class1", parsedArguments[4].getValues().get(1));
-        Assert.assertEquals("i", parsedArguments[5].getOptions().get(0));
+        Assert.assertEquals("i", parsedArguments[6].getOptions().get(0));
 
     }
 

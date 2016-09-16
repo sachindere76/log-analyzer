@@ -20,24 +20,25 @@ public class AppConfigTest {
 
     @BeforeClass
     public static void beforeClass() {
-        argumentInfoRegistry = new ArgumentInfoRegistry(AppConfig.class.getPackage().getName());
-        argumentInfoRegistry.init();
+	argumentInfoRegistry = new ArgumentInfoRegistry(AppConfig.class.getPackage().getName());
+	argumentInfoRegistry.init();
     }
 
     @Test
     public void fillAppConfig() throws IOException {
 
-        URL configFileUrl = URLClassLoader.getSystemResource("config.json");
-        File configFile = new File(configFileUrl.getPath());
-        Assert.assertTrue(configFile.exists());
+	URL configFileUrl = URLClassLoader.getSystemResource("config.json");
+	File configFile = new File(configFileUrl.getPath());
+	Assert.assertTrue(configFile.exists());
 
-        String configFileContent = new String(Files.readAllBytes(configFile.toPath()));
-        ParsedArgument[] parsedArguments = JsonUtil.fromJson(configFileContent, ParsedArgument[].class);
+	String configFileContent = new String(Files.readAllBytes(configFile.toPath()));
+	ParsedArgument[] parsedArguments = JsonUtil.fromJson(configFileContent, ParsedArgument[].class);
 
-        AppConfig appConfig = new AppConfig(argumentInfoRegistry);
-        appConfig.init(parsedArguments);
+	AppConfig appConfig = new AppConfig(argumentInfoRegistry);
+	appConfig.init(parsedArguments);
 
-        Assert.assertTrue(appConfig.isOutputFileDefined());
+	Assert.assertTrue(appConfig.isOutputFileDefined());
+	Assert.assertEquals(1, appConfig.getOutputFields().size());
 
     }
 
