@@ -4,6 +4,6 @@
 {"key":"exactDateFilter","options":[""],"values":["2016-06-15"]},
 {"key":"timeRangeFilter","options":[""],"values":["23:58:00","23:59:00"]},
 {"key":"valueFilter","options":["n"],"values":["component","Class1"]},
-{"key":"regexExtractedOutputField","options":[""],"values":["message","instanceId\\=[A-Z]*"]},
+{"key":"regexExtractedOutputField","options":["u"],"values":["message","instanceId\\=[A-Z]*"]},
 {"key":"valueFilter","options":["i"],"values":["message","ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"]}
 ]

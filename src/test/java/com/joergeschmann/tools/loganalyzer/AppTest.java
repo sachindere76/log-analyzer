@@ -29,7 +29,7 @@ public class AppTest {
 	        "--outputFile", outputFile.getAbsolutePath(), 
 	        "--exactDateFilter", "2016-06-15", 
 	        "--timeRangeFilter", "23:58:00", "23:59:00", 
-	        "--regexExtractedOutputField", "message", "instanceId\\=[A-Z]*",
+	        "--regexExtractedOutputField", "-u", "message", "instanceId\\=[A-Z]*",
 	        "--valueFilter", "-n", "component", "Class1", "valueFilter", "-i", "message",
 	        "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
 

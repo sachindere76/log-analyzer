@@ -8,7 +8,7 @@ package com.joergeschmann.tools.loganalyzer.config.modifier;
  */
 public enum ConfigModifier {
 
-    Inactive("i");
+    INACTIVE("i"), UNIQUE("u");
 
     private final String key;
 

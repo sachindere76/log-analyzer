@@ -58,7 +58,7 @@ public class AppConfig {
 
         for (ParsedArgument argument : parsedArguments) {
 
-            if (argument.getOptions().contains(ConfigModifier.Inactive.getKey())) {
+            if (argument.getOptions().contains(ConfigModifier.INACTIVE.getKey())) {
                 LOGGER.debug("Skipping inactive argument: {}", argument.toString());
                 continue;
             }
@@ -151,6 +151,10 @@ public class AppConfig {
             final OutputField<LogEntry> newField = (OutputField<LogEntry>) definingClass
                     .getDeclaredConstructor(argumentInfos.constructorArguments())
                     .newInstance(parsedArgument.getValues().toArray());
+            
+            for(String option : parsedArgument.getOptions()) {
+            	newField.addOption(option);
+            }
 
             this.outputFields.add(newField);
 
