@@ -70,7 +70,7 @@ public class App {
             final String configFileContent = new String(Files.readAllBytes(configFile.toPath()));
             return this.gson.fromJson(configFileContent, ParsedArgument[].class);
         } catch (Exception exc) {
-            throw new RuntimeException("Could nor parse config file");
+            throw new RuntimeException("Could not parse config file");
         }
 
     }
