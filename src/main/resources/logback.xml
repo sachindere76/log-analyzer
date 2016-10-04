@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <appender name="fileAppender" class="ch.qos.logback.core.FileAppender">
-    <file>/var/tmp/thrill/log.txt</file>
+    <file>log.txt</file>
     <append>true</append>
     <encoder>
       <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%-10t] %-20logger{0} - %msg%n</pattern>
