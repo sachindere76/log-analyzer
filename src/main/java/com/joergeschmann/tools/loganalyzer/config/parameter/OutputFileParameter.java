@@ -17,17 +17,17 @@ public class OutputFileParameter implements ConfigParameter {
     private final String outputFilePath;
 
     public OutputFileParameter(final String outputFilePath) {
-        this.outputFilePath = outputFilePath;
+	this.outputFilePath = outputFilePath;
     }
 
     @Override
     public String getId() {
-        return OutputFileParameter.class.getName();
+	return OutputFileParameter.class.getName();
     }
 
     @Override
     public String getValue() {
-        return this.outputFilePath;
+	return this.outputFilePath;
     }
 
 }

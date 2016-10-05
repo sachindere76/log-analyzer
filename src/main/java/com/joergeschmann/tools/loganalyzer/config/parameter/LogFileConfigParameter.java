@@ -17,17 +17,17 @@ public class LogFileConfigParameter implements ConfigParameter {
     private final String filePath;
 
     public LogFileConfigParameter(final String filePath) {
-        this.filePath = filePath;
+	this.filePath = filePath;
     }
 
     @Override
     public String getId() {
-        return LogFileConfigParameter.class.getName();
+	return LogFileConfigParameter.class.getName();
     }
 
     @Override
     public String getValue() {
-        return filePath;
+	return filePath;
     }
 
 }

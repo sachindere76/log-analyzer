@@ -1,7 +1,7 @@
 package com.joergeschmann.tools.loganalyzer.config.modifier;
 
 /**
- * Provides the flag -i that makes an argument inactive.
+ * Defines flags that provide more flexibility for arguments.
  * 
  * @author joerg.eschmann@gmail.com
  *
@@ -13,11 +13,11 @@ public enum ConfigModifier {
     private final String key;
 
     ConfigModifier(final String key) {
-        this.key = key;
+	this.key = key;
     }
 
     public String getKey() {
-        return this.key;
+	return this.key;
     }
 
 }

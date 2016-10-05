@@ -25,17 +25,18 @@ public final class LogEntryObserverBuilder {
      */
     public static AbstractLogEntryObserver createObserver(final AppConfig appConfig) {
 
-        final LogEntryParser logEntryParser = new LogEntryParser();
-        final FilterProcessor<LogEntry> filterProcessor = new FilterProcessor<>();
-        filterProcessor.addFilters(appConfig.getFilterList());
+	final LogEntryParser logEntryParser = new LogEntryParser();
+	final FilterProcessor<LogEntry> filterProcessor = new FilterProcessor<>();
+	filterProcessor.addFilters(appConfig.getFilterList());
 
-        if (appConfig.isOutputFileDefined()) {
-            final File outputFile = new File(appConfig.getOutputFilePath());
-            return new LogEntryFileAppenderObserver(filterProcessor, logEntryParser, outputFile,
-                    appConfig.getOutputFields());
-        } else {
-            return new LogEntryConsoleAppenderObserver(filterProcessor, logEntryParser, appConfig.getOutputFields());
-        }
+	if (appConfig.isOutputFileDefined()) {
+	    final File outputFile = new File(appConfig.getOutputFilePath());
+	    return new LogEntryFileAppenderObserver(filterProcessor, logEntryParser, outputFile,
+	            appConfig.getOutputFields());
+	}
+	else {
+	    return new LogEntryConsoleAppenderObserver(filterProcessor, logEntryParser, appConfig.getOutputFields());
+	}
 
     }
 

@@ -17,47 +17,48 @@ class MultipleFileProcessor extends AbstractFileProcessor {
     private List<String> processedFiles;
 
     MultipleFileProcessor(final File logFolder) {
-        this.logFolder = logFolder;
-        this.processedFiles = new ArrayList<String>();
+	this.logFolder = logFolder;
+	this.processedFiles = new ArrayList<String>();
     }
 
     @Override
     public void process() {
 
-        processChildren(logFolder.listFiles());
+	processChildren(logFolder.listFiles());
 
     }
 
     void processChildren(final File[] children) {
 
-        // Process all files in the same folder first, then look for recursive
-        // children.
-        final List<File> recursiveFolders = new ArrayList<>();
+	// Process all files in the same folder first, then look for recursive
+	// children.
+	final List<File> recursiveFolders = new ArrayList<>();
 
-        for (File child : children) {
-            if (child.isDirectory()) {
-                recursiveFolders.add(child);
-            } else {
-                processFile(child);
-            }
-        }
+	for (File child : children) {
+	    if (child.isDirectory()) {
+		recursiveFolders.add(child);
+	    }
+	    else {
+		processFile(child);
+	    }
+	}
 
-        for (File file : recursiveFolders) {
-            processChildren(file.listFiles());
-        }
+	for (File file : recursiveFolders) {
+	    processChildren(file.listFiles());
+	}
     }
 
     void processFile(final File logFile) {
 
-        this.processedFiles.add(logFile.getAbsolutePath());
+	this.processedFiles.add(logFile.getAbsolutePath());
 
-        final SingleFileProcessor processor = new SingleFileProcessor(logFile);
-        processor.addObservers(getObservers());
-        processor.process();
+	final SingleFileProcessor processor = new SingleFileProcessor(logFile);
+	processor.addObservers(getObservers());
+	processor.process();
 
     }
 
     List<String> getProcessedFiles() {
-        return this.processedFiles;
+	return this.processedFiles;
     }
 }

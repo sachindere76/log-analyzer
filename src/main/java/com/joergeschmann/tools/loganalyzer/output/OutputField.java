@@ -9,8 +9,8 @@ import com.joergeschmann.tools.loganalyzer.filter.FilterableValue;
  *
  */
 public interface OutputField<T extends FilterableValue> {
-	
-	void addOption(String value);
+
+    void addOption(String value);
 
     String extractValue(T entry);
 

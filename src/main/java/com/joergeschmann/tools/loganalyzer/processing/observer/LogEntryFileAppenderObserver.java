@@ -26,22 +26,22 @@ public class LogEntryFileAppenderObserver extends AbstractLogEntryObserver {
             final LogEntryParser logEntryParser, final File outputFile,
             final List<OutputField<LogEntry>> outputFields) {
 
-        super(filterProcessor, logEntryParser, outputFields);
-        this.outputFile = outputFile;
-        FileUtil.ensureIsEmptyFile(this.outputFile);
+	super(filterProcessor, logEntryParser, outputFields);
+	this.outputFile = outputFile;
+	FileUtil.ensureIsEmptyFile(this.outputFile);
 
     }
 
     @Override
     Logger getLogger() {
-        return LOGGER;
+	return LOGGER;
     }
 
     @Override
     void writeLogEntry(String entry) {
 
-        LOGGER.info(entry);
-        FileUtil.appendLineToFile(this.outputFile, entry);
+	LOGGER.info(entry);
+	FileUtil.appendLineToFile(this.outputFile, entry);
 
     }
 

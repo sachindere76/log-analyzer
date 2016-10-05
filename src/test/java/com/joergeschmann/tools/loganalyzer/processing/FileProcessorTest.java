@@ -17,65 +17,65 @@ public class FileProcessorTest {
     @Test
     public void processSmallLogFile() throws IOException {
 
-        URL testFileUrl = URLClassLoader.getSystemResource("logfiles/small.log");
+	URL testFileUrl = URLClassLoader.getSystemResource("logfiles/small.log");
 
-        LineCounterObserver observer = new LineCounterObserver();
+	LineCounterObserver observer = new LineCounterObserver();
 
-        FileProcessor processor = FileProcessorBuilder.createProcessor(testFileUrl.getFile());
-        processor.addObserver(observer);
+	FileProcessor processor = FileProcessorBuilder.createProcessor(testFileUrl.getFile());
+	processor.addObserver(observer);
 
-        processor.process();
+	processor.process();
 
-        File testFile = new File(testFileUrl.getFile());
-        int numberOfLines = Files.readLines(testFile, Charset.defaultCharset()).size();
-        Assert.assertEquals(numberOfLines, observer.getCount());
+	File testFile = new File(testFileUrl.getFile());
+	int numberOfLines = Files.readLines(testFile, Charset.defaultCharset()).size();
+	Assert.assertEquals(numberOfLines, observer.getCount());
 
     }
 
     @Test
     public void processLogFileFolder() throws IOException {
 
-        URL testFolderUrl = URLClassLoader.getSystemResource("logfiles");
-        LineCounterObserver observer = new LineCounterObserver();
+	URL testFolderUrl = URLClassLoader.getSystemResource("logfiles");
+	LineCounterObserver observer = new LineCounterObserver();
 
-        MultipleFileProcessor processor = (MultipleFileProcessor) FileProcessorBuilder
-                .createProcessor(testFolderUrl.getFile());
-        processor.addObserver(observer);
+	MultipleFileProcessor processor = (MultipleFileProcessor) FileProcessorBuilder
+	        .createProcessor(testFolderUrl.getFile());
+	processor.addObserver(observer);
 
-        processor.process();
+	processor.process();
 
-        File testFolder = new File(testFolderUrl.getFile());
-        int numberOfLines = 0;
-        for (File child : testFolder.listFiles()) {
-            numberOfLines += Files.readLines(child, Charset.defaultCharset()).size();
-        }
+	File testFolder = new File(testFolderUrl.getFile());
+	int numberOfLines = 0;
+	for (File child : testFolder.listFiles()) {
+	    numberOfLines += Files.readLines(child, Charset.defaultCharset()).size();
+	}
 
-        Assert.assertEquals(numberOfLines, observer.getCount());
-        Assert.assertEquals(testFolder.listFiles().length, processor.getProcessedFiles().size());
+	Assert.assertEquals(numberOfLines, observer.getCount());
+	Assert.assertEquals(testFolder.listFiles().length, processor.getProcessedFiles().size());
 
     }
 
     class LineCounterObserver implements LogLineObserver {
 
-        private int lineCounter;
+	private int lineCounter;
 
-        public LineCounterObserver() {
+	public LineCounterObserver() {
 
-        }
+	}
 
-        @Override
-        public void notify(String entry) {
-            this.lineCounter++;
-        }
+	@Override
+	public void notify(String entry) {
+	    this.lineCounter++;
+	}
 
-        @Override
-        public void flush() {
-            // not necessary
-        }
+	@Override
+	public void flush() {
+	    // not necessary
+	}
 
-        public int getCount() {
-            return this.lineCounter;
-        }
+	public int getCount() {
+	    return this.lineCounter;
+	}
 
     }
 

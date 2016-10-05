@@ -20,20 +20,20 @@ public class ExactDateFilter<T extends FilterableDate> extends AbstractFilter<T>
     private final LocalDate exactDate;
 
     public ExactDateFilter(final String date) {
-        this.exactDate = LocalDate.parse(date);
+	this.exactDate = LocalDate.parse(date);
     }
 
     @Override
     public String getId() {
-        return this.getClass().getName();
+	return this.getClass().getName();
     }
 
     @Override
     public boolean isRelevant(final T entry) {
 
-        final LocalDate date = LocalDate.parse(entry.getDate());
-        boolean isRelevant = this.exactDate.isEqual(date);
-        return applyOptions(isRelevant);
+	final LocalDate date = LocalDate.parse(entry.getDate());
+	boolean isRelevant = this.exactDate.isEqual(date);
+	return applyOptions(isRelevant);
 
     }
 

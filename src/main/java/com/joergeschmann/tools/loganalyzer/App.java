@@ -25,70 +25,72 @@ import com.joergeschmann.tools.loganalyzer.processing.observer.LogEntryObserverB
  */
 public class App {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
 
-	private static final String CONFIG_FILE_NAME = "config.json";
+    private static final String CONFIG_FILE_NAME = "config.json";
 
-	public static void main(String[] arguments) {
+    public static void main(String[] arguments) {
 
-		App app = new App(arguments);
-		app.run();
+	App app = new App(arguments);
+	app.run();
 
+    }
+
+    private final String[] arguments;
+    private final Gson gson = new Gson();
+
+    public App(final String[] arguments) {
+	this.arguments = arguments == null ? new String[0] : arguments;
+    }
+
+    public void run() {
+
+	final ParsedArgument[] parsedArguments = parseConfigFileOrArguments();
+
+	final ArgumentInfoRegistry argumentInfoRegistry = new ArgumentInfoRegistry(
+	        this.getClass().getPackage().getName());
+	argumentInfoRegistry.init();
+
+	final AppConfig appConfig = new AppConfig(argumentInfoRegistry);
+	appConfig.init(parsedArguments);
+
+	final FileProcessor processor = FileProcessorBuilder.createProcessor(appConfig.getLogFilePath());
+	processor.addObserver(LogEntryObserverBuilder.createObserver(appConfig));
+
+	LOGGER.info("================== Log excerpt start ====================");
+	processor.process();
+	LOGGER.info("================== Log excerpt end ====================");
+
+    }
+
+    private ParsedArgument[] parseConfigFileOrArguments() {
+
+	final File configFile = getConfigFile();
+	if (this.arguments.length > 0 || !configFile.exists()) {
+	    return ArgumentParser.parse(this.arguments);
 	}
 
-	private final String[] arguments;
-	private final Gson gson = new Gson();
-
-	public App(final String[] arguments) {
-		this.arguments = arguments == null ? new String[0] : arguments;
+	try {
+	    final String configFileContent = new String(Files.readAllBytes(configFile.toPath()));
+	    return this.gson.fromJson(configFileContent, ParsedArgument[].class);
+	}
+	catch (Exception exc) {
+	    throw new RuntimeException("Could not parse config file");
 	}
 
-	public void run() {
+    }
 
-		final ParsedArgument[] parsedArguments = parseConfigFileOrArguments();
-
-		final ArgumentInfoRegistry argumentInfoRegistry = new ArgumentInfoRegistry(
-				this.getClass().getPackage().getName());
-		argumentInfoRegistry.init();
-
-		final AppConfig appConfig = new AppConfig(argumentInfoRegistry);
-		appConfig.init(parsedArguments);
-
-		final FileProcessor processor = FileProcessorBuilder.createProcessor(appConfig.getLogFilePath());
-		processor.addObserver(LogEntryObserverBuilder.createObserver(appConfig));
-
-		LOGGER.info("================== Log excerpt start ====================");
-		processor.process();
-		LOGGER.info("================== Log excerpt end ====================");
-
+    private File getConfigFile() {
+	try {
+	    URL configFileUrl = URLClassLoader.getSystemResource(CONFIG_FILE_NAME);
+	    File configFile = new File(configFileUrl.toURI());
+	    LOGGER.debug("Config file path: {}", configFile.getAbsolutePath());
+	    return configFile;
 	}
-
-	private ParsedArgument[] parseConfigFileOrArguments() {
-
-		final File configFile = getConfigFile();
-		if (this.arguments.length > 0 || !configFile.exists()) {
-			return ArgumentParser.parse(this.arguments);
-		}
-
-		try {
-			final String configFileContent = new String(Files.readAllBytes(configFile.toPath()));
-			return this.gson.fromJson(configFileContent, ParsedArgument[].class);
-		} catch (Exception exc) {
-			throw new RuntimeException("Could not parse config file");
-		}
-
+	catch (URISyntaxException exc) {
+	    LOGGER.warn("Config file not found {}", CONFIG_FILE_NAME);
+	    return new File(CONFIG_FILE_NAME);
 	}
-
-	private File getConfigFile() {
-		try {
-			URL configFileUrl = URLClassLoader.getSystemResource(CONFIG_FILE_NAME);
-			File configFile = new File(configFileUrl.toURI());
-			LOGGER.debug("Config file path: {}", configFile.getAbsolutePath());
-			return configFile;
-		} catch (URISyntaxException exc) {
-			LOGGER.warn("Config file not found {}", CONFIG_FILE_NAME);
-			return new File(CONFIG_FILE_NAME);
-		}
-	}
+    }
 
 }

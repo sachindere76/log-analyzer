@@ -3,8 +3,9 @@ package com.joergeschmann.tools.loganalyzer.filter;
 import com.joergeschmann.tools.loganalyzer.filter.modifier.RelevanceModifier;
 
 /**
- * Provides the functionality to filter a log file and decide which entries are relevant to further processing. If you
- * want to add a new Filter, create a new Class, extend Filter and add the ArgumentInfo annotation.
+ * Provides the functionality to filter a log file and decide which entries are
+ * relevant to further processing. If you want to add a new Filter, create a new
+ * Class, extend Filter and add the ArgumentInfo annotation.
  * 
  * @author joerg.eschmann@gmail.com
  *

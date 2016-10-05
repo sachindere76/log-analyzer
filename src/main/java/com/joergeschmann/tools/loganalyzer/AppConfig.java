@@ -39,10 +39,10 @@ public class AppConfig {
     private final List<OutputField<LogEntry>> outputFields;
 
     public AppConfig(final ArgumentInfoRegistry argumentInfoRegistry) {
-        this.argumentInfoRegistry = argumentInfoRegistry;
-        this.configValues = new HashMap<>();
-        this.filterList = new ArrayList<>();
-        this.outputFields = new ArrayList<>();
+	this.argumentInfoRegistry = argumentInfoRegistry;
+	this.configValues = new HashMap<>();
+	this.filterList = new ArrayList<>();
+	this.outputFields = new ArrayList<>();
     }
 
     /**
@@ -56,111 +56,116 @@ public class AppConfig {
      */
     public void init(final ParsedArgument[] parsedArguments) {
 
-        for (ParsedArgument argument : parsedArguments) {
+	for (ParsedArgument argument : parsedArguments) {
 
-            if (argument.getOptions().contains(ConfigModifier.INACTIVE.getKey())) {
-                LOGGER.debug("Skipping inactive argument: {}", argument.toString());
-                continue;
-            }
+	    if (argument.getOptions().contains(ConfigModifier.INACTIVE.getKey())) {
+		LOGGER.debug("Skipping inactive argument: {}", argument.toString());
+		continue;
+	    }
 
-            final Class<?> definingClass = this.argumentInfoRegistry.getDefiningClass(argument.getKey());
+	    final Class<?> definingClass = this.argumentInfoRegistry.getDefiningClass(argument.getKey());
 
-            if (Filter.class.isAssignableFrom(definingClass)) {
-                addFilter(definingClass, argument);
-            } else if (ConfigParameter.class.isAssignableFrom(definingClass)) {
-                addConfigValue(definingClass, argument);
-            } else if (OutputField.class.isAssignableFrom(definingClass)) {
-                addOutputFieldConfig(definingClass, argument);
-            }
+	    if (Filter.class.isAssignableFrom(definingClass)) {
+		addFilter(definingClass, argument);
+	    }
+	    else if (ConfigParameter.class.isAssignableFrom(definingClass)) {
+		addConfigValue(definingClass, argument);
+	    }
+	    else if (OutputField.class.isAssignableFrom(definingClass)) {
+		addOutputFieldConfig(definingClass, argument);
+	    }
 
-        }
+	}
 
     }
 
     public String getLogFilePath() {
-        return configValues.get(LogFileConfigParameter.KEY);
+	return configValues.get(LogFileConfigParameter.KEY);
     }
 
     public boolean isOutputFileDefined() {
-        return configValues.containsKey(OutputFileParameter.KEY);
+	return configValues.containsKey(OutputFileParameter.KEY);
     }
 
     public String getOutputFilePath() {
-        return configValues.get(OutputFileParameter.KEY);
+	return configValues.get(OutputFileParameter.KEY);
     }
 
     public List<Filter<LogEntry>> getFilterList() {
-        return this.filterList;
+	return this.filterList;
     }
 
     public List<OutputField<LogEntry>> getOutputFields() {
-        return this.outputFields;
+	return this.outputFields;
     }
 
     @SuppressWarnings("unchecked")
     private void addFilter(final Class<?> definingClass, final ParsedArgument parsedArgument) {
 
-        final ArgumentInfo argumentInfos = this.argumentInfoRegistry.getArgumentInfo(parsedArgument.getKey());
+	final ArgumentInfo argumentInfos = this.argumentInfoRegistry.getArgumentInfo(parsedArgument.getKey());
 
-        try {
+	try {
 
-            final Filter<LogEntry> newFilter = (Filter<LogEntry>) definingClass
-                    .getDeclaredConstructor(argumentInfos.constructorArguments())
-                    .newInstance(parsedArgument.getValues().toArray());
+	    final Filter<LogEntry> newFilter = (Filter<LogEntry>) definingClass
+	            .getDeclaredConstructor(argumentInfos.constructorArguments())
+	            .newInstance(parsedArgument.getValues().toArray());
 
-            for (String option : parsedArgument.getOptions()) {
-                final Optional<RelevanceModifier> modifier = RelevanceModifierBuilder.create(option);
-                if (modifier.isPresent()) {
-                    newFilter.addRelevanceModifier(modifier.get());
-                }
-            }
+	    for (String option : parsedArgument.getOptions()) {
+		final Optional<RelevanceModifier> modifier = RelevanceModifierBuilder.create(option);
+		if (modifier.isPresent()) {
+		    newFilter.addRelevanceModifier(modifier.get());
+		}
+	    }
 
-            this.filterList.add(newFilter);
+	    this.filterList.add(newFilter);
 
-        } catch (Exception exc) {
-            LOGGER.warn("Could not create filter: {} -> {} ", definingClass.getName(), exc.getMessage());
-        }
+	}
+	catch (Exception exc) {
+	    LOGGER.warn("Could not create filter: {} -> {} ", definingClass.getName(), exc.getMessage());
+	}
 
     }
 
     private void addConfigValue(final Class<?> definingClass, final ParsedArgument parsedArgument) {
 
-        final ArgumentInfo argumentInfos = this.argumentInfoRegistry.getArgumentInfo(parsedArgument.getKey());
+	final ArgumentInfo argumentInfos = this.argumentInfoRegistry.getArgumentInfo(parsedArgument.getKey());
 
-        try {
+	try {
 
-            final ConfigParameter newParameter = (ConfigParameter) definingClass
-                    .getDeclaredConstructor(argumentInfos.constructorArguments())
-                    .newInstance(parsedArgument.getValues().toArray());
+	    final ConfigParameter newParameter = (ConfigParameter) definingClass
+	            .getDeclaredConstructor(argumentInfos.constructorArguments())
+	            .newInstance(parsedArgument.getValues().toArray());
 
-            this.configValues.put(parsedArgument.getKey(), newParameter.getValue());
+	    this.configValues.put(parsedArgument.getKey(), newParameter.getValue());
 
-        } catch (Exception exc) {
-            LOGGER.warn("Could not create config parameter: {} -> {} ", definingClass.getName(), exc.getMessage());
-        }
+	}
+	catch (Exception exc) {
+	    LOGGER.warn("Could not create config parameter: {} -> {} ", definingClass.getName(), exc.getMessage());
+	}
 
     }
 
     @SuppressWarnings("unchecked")
     private void addOutputFieldConfig(final Class<?> definingClass, final ParsedArgument parsedArgument) {
 
-        final ArgumentInfo argumentInfos = this.argumentInfoRegistry.getArgumentInfo(parsedArgument.getKey());
+	final ArgumentInfo argumentInfos = this.argumentInfoRegistry.getArgumentInfo(parsedArgument.getKey());
 
-        try {
+	try {
 
-            final OutputField<LogEntry> newField = (OutputField<LogEntry>) definingClass
-                    .getDeclaredConstructor(argumentInfos.constructorArguments())
-                    .newInstance(parsedArgument.getValues().toArray());
-            
-            for(String option : parsedArgument.getOptions()) {
-            	newField.addOption(option);
-            }
+	    final OutputField<LogEntry> newField = (OutputField<LogEntry>) definingClass
+	            .getDeclaredConstructor(argumentInfos.constructorArguments())
+	            .newInstance(parsedArgument.getValues().toArray());
 
-            this.outputFields.add(newField);
+	    for (String option : parsedArgument.getOptions()) {
+		newField.addOption(option);
+	    }
 
-        } catch (Exception exc) {
-            System.out.println("Could not create output field: " + definingClass.getName() + " -> " + exc.getMessage());
-        }
+	    this.outputFields.add(newField);
+
+	}
+	catch (Exception exc) {
+	    System.out.println("Could not create output field: " + definingClass.getName() + " -> " + exc.getMessage());
+	}
 
     }
 }

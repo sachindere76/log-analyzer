@@ -10,15 +10,16 @@ import java.util.Optional;
  */
 public final class RelevanceModifierBuilder {
 
-    private RelevanceModifierBuilder() {}
+    private RelevanceModifierBuilder() {
+    }
 
     public static Optional<RelevanceModifier> create(final String key) {
-        switch (key) {
-            case NotOperator.KEY:
-                return Optional.of(new NotOperator());
-            default:
-                return Optional.empty();
-        }
+	switch (key) {
+	case NotOperator.KEY:
+	    return Optional.of(new NotOperator());
+	default:
+	    return Optional.empty();
+	}
     }
 
 }

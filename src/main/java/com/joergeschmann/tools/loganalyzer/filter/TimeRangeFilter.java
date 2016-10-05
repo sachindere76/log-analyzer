@@ -21,19 +21,19 @@ public class TimeRangeFilter<T extends FilterableTime> extends AbstractFilter<T>
     private final int endTimeSecondsOfDay;
 
     public TimeRangeFilter(final String startTime, final String endTime) {
-        this.startTimeSecondsOfDay = LocalTime.parse(startTime).toSecondOfDay();
-        this.endTimeSecondsOfDay = LocalTime.parse(endTime).toSecondOfDay();
+	this.startTimeSecondsOfDay = LocalTime.parse(startTime).toSecondOfDay();
+	this.endTimeSecondsOfDay = LocalTime.parse(endTime).toSecondOfDay();
     }
 
     @Override
     public String getId() {
-        return this.getClass().getName();
+	return this.getClass().getName();
     }
 
     @Override
     public boolean isRelevant(final T entry) {
-        int testTimeSeconds = LocalTime.parse(entry.getTime()).toSecondOfDay();
-        boolean isRelevant = startTimeSecondsOfDay < testTimeSeconds && testTimeSeconds < endTimeSecondsOfDay;
-        return applyOptions(isRelevant);
+	int testTimeSeconds = LocalTime.parse(entry.getTime()).toSecondOfDay();
+	boolean isRelevant = startTimeSecondsOfDay < testTimeSeconds && testTimeSeconds < endTimeSecondsOfDay;
+	return applyOptions(isRelevant);
     }
 }

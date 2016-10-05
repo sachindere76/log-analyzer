@@ -23,7 +23,7 @@ public final class JsonUtil {
      * @return
      */
     public static String toJson(final Object object) {
-        return GSON.toJson(object);
+	return GSON.toJson(object);
     }
 
     /**
@@ -34,7 +34,7 @@ public final class JsonUtil {
      * @return
      */
     public static <T> T fromJson(final String json, final Class<T> desiredClass) {
-        return GSON.fromJson(json, desiredClass);
+	return GSON.fromJson(json, desiredClass);
     }
 
 }

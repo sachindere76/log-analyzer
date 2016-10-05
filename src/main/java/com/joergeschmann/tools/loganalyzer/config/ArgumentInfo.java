@@ -6,8 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Is the Annotation to indicate an argument. Classes annotated with this interface are automatically registered in the
- * ArgumentInfoRegistry and are available as arguments.
+ * Is the Annotation to indicate an argument. Classes annotated with this
+ * interface are automatically registered in the ArgumentInfoRegistry and are
+ * available as arguments.
  * 
  * @author joerg.eschmann@gmail.com
  *
@@ -24,8 +25,8 @@ public @interface ArgumentInfo {
     String name();
 
     /**
-     * Constructor arguments indicates which constructor of the implementing class should be used to instantiate a new
-     * object.
+     * Constructor arguments indicates which constructor of the implementing
+     * class should be used to instantiate a new object.
      * 
      * @return
      */

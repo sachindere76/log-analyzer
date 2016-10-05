@@ -26,50 +26,51 @@ public class ArgumentInfoRegistry {
     private final Map<String, ArgumentInfo> argumentInfoMap;
 
     public ArgumentInfoRegistry(final String packageName) {
-        this.packageName = packageName;
-        this.argumentClassesMap = new HashMap<>();
-        this.argumentInfoMap = new HashMap<>();
+	this.packageName = packageName;
+	this.argumentClassesMap = new HashMap<>();
+	this.argumentInfoMap = new HashMap<>();
     }
 
     /**
-     * Scans all classes of the defined package and registers all ArgumentInfo annotations.
+     * Scans all classes of the defined package and registers all ArgumentInfo
+     * annotations.
      */
     public void init() {
 
-        final Reflections reflections = new Reflections(this.packageName);
-        final Set<Class<?>> annotatedClasses = reflections.getTypesAnnotatedWith(ArgumentInfo.class, true);
+	final Reflections reflections = new Reflections(this.packageName);
+	final Set<Class<?>> annotatedClasses = reflections.getTypesAnnotatedWith(ArgumentInfo.class, true);
 
-        for (Class<?> annotatedClass : annotatedClasses) {
-            LOGGER.debug("Registering: {}", annotatedClass.getName());
-            final ArgumentInfo argumentInfos = annotatedClass.getAnnotation(ArgumentInfo.class);
-            this.argumentClassesMap.put(argumentInfos.name(), annotatedClass);
-            this.argumentInfoMap.put(argumentInfos.name(), argumentInfos);
-        }
+	for (Class<?> annotatedClass : annotatedClasses) {
+	    LOGGER.debug("Registering: {}", annotatedClass.getName());
+	    final ArgumentInfo argumentInfos = annotatedClass.getAnnotation(ArgumentInfo.class);
+	    this.argumentClassesMap.put(argumentInfos.name(), annotatedClass);
+	    this.argumentInfoMap.put(argumentInfos.name(), argumentInfos);
+	}
 
     }
 
     public boolean isArgumentInfoAvailable(final String key) {
-        return this.argumentInfoMap.containsKey(key);
+	return this.argumentInfoMap.containsKey(key);
     }
 
     public ArgumentInfo getArgumentInfo(final String key) {
-        return this.argumentInfoMap.get(key);
+	return this.argumentInfoMap.get(key);
     }
 
     public Class<?> getDefiningClass(final String key) {
-        return this.argumentClassesMap.get(key);
+	return this.argumentClassesMap.get(key);
     }
 
     public List<String> getArgumentDescriptions() {
 
-        final List<String> descriptions = new ArrayList<>();
-        final Set<Entry<String, ArgumentInfo>> entrySet = this.argumentInfoMap.entrySet();
+	final List<String> descriptions = new ArrayList<>();
+	final Set<Entry<String, ArgumentInfo>> entrySet = this.argumentInfoMap.entrySet();
 
-        for (Entry<String, ArgumentInfo> entry : entrySet) {
-            descriptions.add(entry.getValue().description());
-        }
+	for (Entry<String, ArgumentInfo> entry : entrySet) {
+	    descriptions.add(entry.getValue().description());
+	}
 
-        return descriptions;
+	return descriptions;
 
     }
 

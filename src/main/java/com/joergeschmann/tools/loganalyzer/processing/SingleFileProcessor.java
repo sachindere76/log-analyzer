@@ -17,47 +17,50 @@ class SingleFileProcessor extends AbstractFileProcessor {
     private final File file;
 
     SingleFileProcessor(final File logFile) {
-        this.file = logFile;
+	this.file = logFile;
     }
 
     @Override
     public void process() {
 
-        FileReader fileReader = null;
-        BufferedReader bufferedReader = null;
+	FileReader fileReader = null;
+	BufferedReader bufferedReader = null;
 
-        try {
-            fileReader = new FileReader(file);
-            bufferedReader = new BufferedReader(fileReader);
-            String currentLine = null;
+	try {
+	    fileReader = new FileReader(file);
+	    bufferedReader = new BufferedReader(fileReader);
+	    String currentLine = null;
 
-            while ((currentLine = bufferedReader.readLine()) != null) {
-                notifyObservers(currentLine);
-            }
+	    while ((currentLine = bufferedReader.readLine()) != null) {
+		notifyObservers(currentLine);
+	    }
 
-        } catch (IOException exc) {
-            throw new RuntimeException("Could not read file content", exc);
-        } finally {
-            close(bufferedReader);
-            close(fileReader);
-        }
+	}
+	catch (IOException exc) {
+	    throw new RuntimeException("Could not read file content", exc);
+	}
+	finally {
+	    close(bufferedReader);
+	    close(fileReader);
+	}
 
-        // Ensure the last log entry is also written if relevant
-        flushObservers();
+	// Ensure the last log entry is also written if relevant
+	flushObservers();
 
     }
 
     private void close(final Closeable instance) {
 
-        if (instance == null) {
-            return;
-        }
+	if (instance == null) {
+	    return;
+	}
 
-        try {
-            instance.close();
-        } catch (Exception exc) {
-            // do not bother
-        }
+	try {
+	    instance.close();
+	}
+	catch (Exception exc) {
+	    // do not bother
+	}
 
     }
 }

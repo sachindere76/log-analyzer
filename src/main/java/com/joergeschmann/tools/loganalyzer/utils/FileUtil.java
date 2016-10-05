@@ -27,11 +27,12 @@ public final class FileUtil {
      * @param value
      */
     public static void appendLineToFile(final File file, final String value) {
-        try {
-            Files.append(value + "\r\n", file, UTF8_Charset);
-        } catch (IOException exc) {
-            throw new RuntimeException("Could not append to file", exc);
-        }
+	try {
+	    Files.append(value + "\r\n", file, UTF8_Charset);
+	}
+	catch (IOException exc) {
+	    throw new RuntimeException("Could not append to file", exc);
+	}
     }
 
     /**
@@ -40,14 +41,15 @@ public final class FileUtil {
      * @param file
      */
     public static void ensureIsEmptyFile(final File file) {
-        if (file.exists()) {
-            file.delete();
-        }
-        try {
-            file.createNewFile();
-        } catch (IOException exc) {
-            throw new RuntimeException("Could not create new file", exc);
-        }
+	if (file.exists()) {
+	    file.delete();
+	}
+	try {
+	    file.createNewFile();
+	}
+	catch (IOException exc) {
+	    throw new RuntimeException("Could not create new file", exc);
+	}
     }
 
 }

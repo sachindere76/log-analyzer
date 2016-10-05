@@ -12,7 +12,7 @@ public class NotOperator implements RelevanceModifier {
 
     @Override
     public boolean modify(boolean result) {
-        return !result;
+	return !result;
     }
 
 }

@@ -16,33 +16,33 @@ abstract class AbstractFileProcessor implements FileProcessor {
     private List<LogLineObserver> observers;
 
     AbstractFileProcessor() {
-        this.observers = new ArrayList<>();
+	this.observers = new ArrayList<>();
     }
 
     @Override
     public void addObserver(LogLineObserver observer) {
-        this.observers.add(observer);
+	this.observers.add(observer);
     }
 
     @Override
     public void addObservers(List<LogLineObserver> observers) {
-        this.observers.addAll(observers);
+	this.observers.addAll(observers);
     }
 
     List<LogLineObserver> getObservers() {
-        return this.observers;
+	return this.observers;
     }
 
     void notifyObservers(final String line) {
-        for (LogLineObserver observer : observers) {
-            observer.notify(line);
-        }
+	for (LogLineObserver observer : observers) {
+	    observer.notify(line);
+	}
     }
 
     void flushObservers() {
-        for (LogLineObserver observer : observers) {
-            observer.flush();
-        }
+	for (LogLineObserver observer : observers) {
+	    observer.flush();
+	}
     }
 
 }

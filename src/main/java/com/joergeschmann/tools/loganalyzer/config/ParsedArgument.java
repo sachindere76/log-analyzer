@@ -18,34 +18,34 @@ public class ParsedArgument {
     private final List<String> values;
 
     public ParsedArgument(final String key) {
-        this.key = key;
-        this.options = new ArrayList<>();
-        this.values = new ArrayList<>();
+	this.key = key;
+	this.options = new ArrayList<>();
+	this.values = new ArrayList<>();
     }
 
     public String getKey() {
-        return this.key;
+	return this.key;
     }
 
     public void addOption(final String option) {
-        this.options.add(option);
+	this.options.add(option);
     }
 
     public List<String> getOptions() {
-        return this.options;
+	return this.options;
     }
 
     public void addValue(final String value) {
-        this.values.add(value);
+	this.values.add(value);
     }
 
     public List<String> getValues() {
-        return this.values;
+	return this.values;
     }
 
     @Override
     public String toString() {
-        return JsonUtil.toJson(this);
+	return JsonUtil.toJson(this);
     }
 
 }

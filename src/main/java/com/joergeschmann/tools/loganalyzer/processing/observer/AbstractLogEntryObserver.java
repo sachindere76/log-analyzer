@@ -24,10 +24,10 @@ abstract class AbstractLogEntryObserver implements LogLineObserver {
 
     public AbstractLogEntryObserver(final FilterProcessor<LogEntry> filterProcessor,
             final LogEntryParser logEntryParser, final List<OutputField<LogEntry>> outputFields) {
-        this.filterProcessor = filterProcessor;
-        this.logEntryParser = logEntryParser;
-        this.logEntry = new LogEntry();
-        this.outputFields = outputFields;
+	this.filterProcessor = filterProcessor;
+	this.logEntryParser = logEntryParser;
+	this.logEntry = new LogEntry();
+	this.outputFields = outputFields;
     }
 
     abstract void writeLogEntry(String entry);
@@ -37,40 +37,43 @@ abstract class AbstractLogEntryObserver implements LogLineObserver {
     @Override
     public void notify(String logLine) {
 
-        if (logEntryParser.indicatesNewEntry(logLine)) {
+	if (logEntryParser.indicatesNewEntry(logLine)) {
 
-            flush();
+	    flush();
 
-            logEntry = logEntryParser.parse(logLine);
-        } else {
-            logEntry.appendMessageLine(logLine);
-        }
+	    logEntry = logEntryParser.parse(logLine);
+	}
+	else {
+	    logEntry.appendMessageLine(logLine);
+	}
 
     }
 
     @Override
     public void flush() {
-        if (!logEntry.hasContent() || !filterProcessor.isRelevant(logEntry)) {
-            return;
-        } else if (this.outputFields.isEmpty()) {
-            writeFullEntry(logEntry);
-        } else {
-            writeMatchesOnly(logEntry);
-        }
+	if (!logEntry.hasContent() || !filterProcessor.isRelevant(logEntry)) {
+	    return;
+	}
+	else if (this.outputFields.isEmpty()) {
+	    writeFullEntry(logEntry);
+	}
+	else {
+	    writeMatchesOnly(logEntry);
+	}
     }
 
     private void writeFullEntry(LogEntry entry) {
-        writeLogEntry(entry.serialize());
+	writeLogEntry(entry.serialize());
     }
 
     private void writeMatchesOnly(LogEntry entry) {
-        StringBuilder builder = new StringBuilder();
-        for (OutputField<LogEntry> field : this.outputFields) {
-            builder.append(field.extractValue(entry));
-        }
-        if (builder.length() > 0) {
-            writeLogEntry(builder.toString());
-        }
+	StringBuilder builder = new StringBuilder();
+	for (OutputField<LogEntry> field : this.outputFields) {
+	    builder.append(field.extractValue(entry));
+	}
+	if (builder.length() > 0) {
+	    writeLogEntry(builder.toString());
+	}
     }
 
 }

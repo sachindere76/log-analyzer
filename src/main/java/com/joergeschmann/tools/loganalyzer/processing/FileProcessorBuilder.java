@@ -22,22 +22,24 @@ public final class FileProcessorBuilder {
      */
     public static FileProcessor createProcessor(final String logFilePath) {
 
-        if (logFilePath == null) {
-            throw new RuntimeException("Please provide a valid log file path: " + logFilePath);
-        }
+	if (logFilePath == null) {
+	    throw new RuntimeException("Please provide a valid log file path: " + logFilePath);
+	}
 
-        final File logFile = new File(logFilePath);
-        if (!logFile.exists()) {
-            throw new RuntimeException("Log file path does not exist: " + logFilePath);
-        }
+	final File logFile = new File(logFilePath);
+	if (!logFile.exists()) {
+	    throw new RuntimeException("Log file path does not exist: " + logFilePath);
+	}
 
-        if (logFile.isFile()) {
-            return new SingleFileProcessor(logFile);
-        } else if (logFile.isDirectory()) {
-            return new MultipleFileProcessor(logFile);
-        } else {
-            throw new RuntimeException("Neither file nor directory: " + logFilePath);
-        }
+	if (logFile.isFile()) {
+	    return new SingleFileProcessor(logFile);
+	}
+	else if (logFile.isDirectory()) {
+	    return new MultipleFileProcessor(logFile);
+	}
+	else {
+	    throw new RuntimeException("Neither file nor directory: " + logFilePath);
+	}
 
     }
 

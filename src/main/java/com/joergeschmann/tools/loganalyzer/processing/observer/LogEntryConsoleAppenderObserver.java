@@ -20,17 +20,17 @@ public class LogEntryConsoleAppenderObserver extends AbstractLogEntryObserver {
 
     public LogEntryConsoleAppenderObserver(FilterProcessor<LogEntry> filterProcessor, LogEntryParser logEntryParser,
             final List<OutputField<LogEntry>> outputFields) {
-        super(filterProcessor, logEntryParser, outputFields);
+	super(filterProcessor, logEntryParser, outputFields);
     }
 
     @Override
     Logger getLogger() {
-        return LOGGER;
+	return LOGGER;
     }
 
     @Override
     void writeLogEntry(String entry) {
-        System.out.println(entry);
+	System.out.println(entry);
     }
 
 }

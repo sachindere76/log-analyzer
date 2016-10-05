@@ -20,7 +20,7 @@ public class AppTest {
 	}
 
 	Assert.assertFalse(outputFile.exists());
-	
+
 	//@formatter:off
 
 	String[] arguments = new String[] { 
