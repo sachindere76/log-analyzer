@@ -1,0 +1,9 @@
+[
+{"key":"logFile","options":[],"values":["src/test/resources/logfiles/medium.log"]},
+{"key":"outputFile","options":[],"values":["/home/sachin/Desktop/EBGlobal/LogAnalyzer/log/result.txt"]},
+{"key":"exactDateFilter","options":[""],"values":["2017-02-02"]},
+{"key":"timeRangeFilter","options":[""],"values":["21:00:00","23:59:00"]},
+{"key":"valueFilter","options":["n"],"values":["component","Class1"]},
+{"key":"regexExtractedOutputField","options":["u"],"values":["message","instanceId\\=[A-Z]*"]},
+{"key":"valueFilter","options":["i"],"values":["message","ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"]}
+]
